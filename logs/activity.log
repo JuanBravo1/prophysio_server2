@@ -1,0 +1,13 @@
+{"level":"info","message":"OTP generado y enviado a: jesus.alexem@gmail.com","timestamp":"2024-10-22T06:06:35.356Z"}
+{"level":"warn","message":"Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 1)","timestamp":"2024-10-22T06:06:42.316Z"}
+{"level":"warn","message":"Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 2)","timestamp":"2024-10-22T06:06:43.452Z"}
+{"level":"warn","message":"Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 3)","timestamp":"2024-10-22T06:57:06.471Z"}
+{"level":"info","message":"OTP generado y enviado a: jesus.alexem@gmail.com","timestamp":"2024-10-22T06:57:14.083Z"}
+{"level":"warn","message":"Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 1)","timestamp":"2024-10-22T07:03:26.754Z"}
+{"level":"warn","message":"Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 2)","timestamp":"2024-10-22T07:03:41.100Z"}
+2024-10-22T07:13:08.657Z [WARN]: Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 3)
+2024-10-22T07:13:09.814Z [WARN]: Intento fallido de inicio de sesión: jesus.alexem@gmail.com (Intentos fallidos: 4)
+2024-10-22T07:13:10.185Z [WARN]: Cuenta bloqueada: jesus.alexem@gmail.com tras 5 intentos fallidos.
+2024-10-22T07:13:10.337Z [WARN]: Cuenta bloqueada: jesus.alexem@gmail.com. Restan 5 minutos.
+2024-10-22T07:28:40.193Z [WARN]: Cuenta bloqueada: jesus.alexem@gmail.com tras 5 intentos fallidos.
+2024-10-22T07:28:41.454Z [WARN]: Cuenta bloqueada: jesus.alexem@gmail.com. Restan 5 minutos.
