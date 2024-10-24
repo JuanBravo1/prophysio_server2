@@ -65,10 +65,8 @@ const register = async (req, res) => {
     await newUser.save();
 
     // Generar un token para la verificación por correo
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-    // El enlace de verificación ahora apunta a una ruta del backend
-    const verificationLink = `http://prophysio.developers506.com/verify/${token}`;
+   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const verificationLink = `${process.env.CLIENT_URL}/verify/${token}`;
 
     // Opciones del correo
     const mailOptions = {
@@ -76,25 +74,13 @@ const register = async (req, res) => {
       to: correo,
       subject: 'Verificación de cuenta - PROphysio',
       html: `
-    <h1>¡Bienvenido, ${nombre}!</h1>
-    <p>Verifica tu cuenta haciendo clic en el siguiente enlace:</p>
-    <a href="${verificationLink}">Verificar mi cuenta</a>
-    <p>El enlace es válido por 24 horas.</p>
-  `,
+        <h1>¡Bienvenido, ${nombre}!</h1>
+        <p>Verifica tu cuenta haciendo clic en el siguiente enlace:</p>
+        <a href="${verificationLink}">Verificar mi cuenta</a>
+        <p>El enlace es válido por 24 horas.</p>
+      `,
     };
-    // Enviar el correo de verificación
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        console.error('Error al enviar el correo:', error);
-        return res.status(500).json({ message: 'Error al enviar el correo de verificación.' });
-      }
-      res.status(201).json({ message: 'Registro exitoso. Verifique su correo para activar su cuenta.' });
-    });
-  } catch (err) {
-    console.error('Error en el registro:', err);
-    res.status(500).json({ message: 'Error al registrar el usuario.' });
-  }
-};
+
 
 const verifyAccount = async (req, res) => {
   const { token } = req.params;
