@@ -68,7 +68,7 @@ const register = async (req, res) => {
 
     // Generar un token para la verificación por correo
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    const verificationLink = `${process.env.CLIENT_URL}/verify/${token}`;
+    const verificationLink = `http://prophysio.developers506.com/verify/${token}`;
 
     // Opciones del correo
     const mailOptions = {
