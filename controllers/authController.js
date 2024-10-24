@@ -68,7 +68,9 @@ const register = async (req, res) => {
 
     // Generar un token para la verificación por correo
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    const verificationLink = `http://prophysio.developers506.com/verify/${token}`;
+
+    // El enlace de verificación ahora apunta a una ruta del backend
+    const verificationLink = `http://localhost:3000/api/auth/verify/${token}`;
 
     // Opciones del correo
     const mailOptions = {
@@ -76,13 +78,12 @@ const register = async (req, res) => {
       to: correo,
       subject: 'Verificación de cuenta - PROphysio',
       html: `
-        <h1>¡Bienvenido, ${nombre}!</h1>
-        <p>Verifica tu cuenta haciendo clic en el siguiente enlace:</p>
-        <a href="${verificationLink}">Verificar mi cuenta</a>
-        <p>El enlace es válido por 24 horas.</p>
-      `,
+    <h1>¡Bienvenido, ${nombre}!</h1>
+    <p>Verifica tu cuenta haciendo clic en el siguiente enlace:</p>
+    <a href="${verificationLink}">Verificar mi cuenta</a>
+    <p>El enlace es válido por 24 horas.</p>
+  `,
     };
-
     // Enviar el correo de verificación
     transporter.sendMail(mailOptions, (error) => {
       if (error) {
@@ -98,7 +99,7 @@ const register = async (req, res) => {
 };
 
 const verifyAccount = async (req, res) => {
-  const { token } = req.body;  // En este caso se espera que el token venga en el cuerpo de la solicitud
+  const { token } = req.params;  // Capturar el token de la URL
 
   try {
     // Decodificar el token
@@ -110,16 +111,19 @@ const verifyAccount = async (req, res) => {
     }
 
     if (user.status === 'active') {
-      return res.status(200).json({ message: 'La cuenta ya estaba activada.' });
+      // Si ya está activo, redirigir directamente al home
+      return res.redirect(`${process.env.CLIENT_URL}/`);
     }
 
     // Activar la cuenta
     user.status = 'active';
     await user.save();
-    return res.status(200).json({ message: 'Cuenta activada exitosamente.' });
 
+    // Redirigir al usuario al home después de la verificación exitosa
+    return res.redirect(`${process.env.CLIENT_URL}/`);
   } catch (error) {
-    return res.status(400).json({ message: 'Token inválido o expirado.' });
+    // Si el token es inválido o expirado, redirigir a una página de error o al home
+    return res.redirect(`${process.env.CLIENT_URL}/error`);
   }
 };
 
