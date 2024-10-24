@@ -40,15 +40,13 @@ const register = async (req, res) => {
     // Verificar el reCAPTCHA
     const captchaResponse = await fetch(url, { method: 'POST' });
     const captchaData = await captchaResponse.json();
-
-    if (!captchaData.success) {
-      return res.status(400).json({ message: 'Captcha inválido. Por favor, inténtelo de nuevo.' });
-    }
-
-    // Verificar si el correo ya está registrado
     const existingUser = await User.findOne({ correo });
+    
     if (existingUser) {
       return res.status(400).json({ message: 'Este correo ya está registrado.' });
+    }
+    if (!captchaData.success) {
+      return res.status(400).json({ message: 'Captcha inválido. Por favor, inténtelo de nuevo.' });
     }
 
     // Hashear la contraseña
