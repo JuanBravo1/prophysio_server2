@@ -68,7 +68,7 @@ const register = async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     // El enlace de verificación ahora apunta a una ruta del backend
-    const verificationLink = `https://prophysio-server2.onrender.com/verify/${token}`;
+    const verificationLink = `http://prophysio.developers506.com/verify/${token}`;
 
     // Opciones del correo
     const mailOptions = {
