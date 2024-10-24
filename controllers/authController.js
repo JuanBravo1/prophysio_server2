@@ -97,10 +97,9 @@ const register = async (req, res) => {
 };
 
 const verifyAccount = async (req, res) => {
-  const { token } = req.params;  // Capturar el token de la URL
+  const { token } = req.params;
 
   try {
-    // Decodificar el token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
 
@@ -109,19 +108,14 @@ const verifyAccount = async (req, res) => {
     }
 
     if (user.status === 'active') {
-      // Si ya está activo, redirigir directamente al home
-      return res.redirect(`${process.env.CLIENT_URL}/`);
+      return res.status(200).json({ message: 'La cuenta ya estaba activada.' });
     }
 
-    // Activar la cuenta
     user.status = 'active';
     await user.save();
-
-    // Redirigir al usuario al home después de la verificación exitosa
-    return res.redirect(`${process.env.CLIENT_URL}/`);
+    res.status(200).json({ message: 'Cuenta activada exitosamente.' });
   } catch (error) {
-    // Si el token es inválido o expirado, redirigir a una página de error o al home
-    return res.redirect(`${process.env.CLIENT_URL}/error`);
+    res.status(400).json({ message: 'Token inválido o expirado.' });
   }
 };
 
