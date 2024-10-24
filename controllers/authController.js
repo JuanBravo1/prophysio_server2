@@ -98,9 +98,10 @@ const register = async (req, res) => {
 };
 
 const verifyAccount = async (req, res) => {
-  const { token } = req.params;
+  const { token } = req.body;  // En este caso se espera que el token venga en el cuerpo de la solicitud
 
   try {
+    // Decodificar el token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
 
@@ -112,13 +113,16 @@ const verifyAccount = async (req, res) => {
       return res.status(200).json({ message: 'La cuenta ya estaba activada.' });
     }
 
+    // Activar la cuenta
     user.status = 'active';
     await user.save();
-    res.status(200).json({ message: 'Cuenta activada exitosamente.' });
+    return res.status(200).json({ message: 'Cuenta activada exitosamente.' });
+
   } catch (error) {
-    res.status(400).json({ message: 'Token inválido o expirado.' });
+    return res.status(400).json({ message: 'Token inválido o expirado.' });
   }
 };
+
 // 2️⃣ Enviar OTP después de la autenticación correcta
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
